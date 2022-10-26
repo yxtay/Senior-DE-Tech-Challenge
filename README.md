@@ -14,6 +14,7 @@ In addition, you will need to address several key points brought by stakeholders
 - Securing access to the environment and its resources as the company expands
 - Security of data at rest and in transit
 - Scaling to meet user demand while keeping costs low
+- Maintainance of the environment and assets (including processing scripts)
 
 
 You will need to ensure that the architecture takes into account the best practices of cloud computing. This includes (non-exhaustive):
