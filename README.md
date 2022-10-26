@@ -27,4 +27,4 @@ You will need to ensure that the architecture takes into account the best practi
 - Low Latency
 - Least Privilege
 
-Do indicate any assumptions you have made regarding the architecture.
+Do indicate any assumptions you have made regarding the architecture. You are required to provide a detailed explanation on the diagram.
