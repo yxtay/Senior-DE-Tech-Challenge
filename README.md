@@ -8,7 +8,7 @@ The company has a web application which allows users to upload images to the clo
 
 As a technical lead of the company, you are required to produce a system architecture diagram (Visio, PowerPoint, draw.io) depicting the end-to-end flow of the aforementioned pipeline. You may use any of the cloud providers (e.g. AWS, Azure, GCP) to host the environment. The architecture should specifically address the requirements/concerns above. 
 
-You will need to address several key points brought by stakeholders. These includes:
+In addition, you will need to address several key points brought by stakeholders. These includes:
 - Securing access to the environment and its resources as the company expands
 - Security of data at rest and in transit
 - Scaling to meet user demand while keeping costs low
