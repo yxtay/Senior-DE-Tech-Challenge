@@ -18,7 +18,7 @@ Each transaction made by a member contains the following information:
 - Total items price
 - Total items weight
 
-This database will be used by several teams within the company to track the orders of members. These teams include:
+This database will be used by several teams within the company to track the orders of members. You are required to implement a strategy for accessing this database based on the various teams' needs. These teams include:
 - Logistics: 
     - Get the sales details (in particular the weight of the total items bought)
     - Update the table for completed transactions
@@ -29,7 +29,7 @@ This database will be used by several teams within the company to track the orde
     - Update databse with new items
     - Remove old items from database
 
-You are required to implement a strategy for accessing this database based on the various teams. 
+
 
 ---
 
