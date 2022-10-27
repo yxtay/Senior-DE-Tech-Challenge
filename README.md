@@ -2,6 +2,39 @@
 
 ## System Design
 
+### Design 1
+You are the tech lead for an e-commerce company that operates on the cloud. The company allows users to sign up as members on their website and make puchases on items listed. You are required to design and implement a pipeline that processes membership applications and determine if an application is successful or unsuccessful. Applications are dropped into a location for processing. Engineers have already written code to determine a successful or unsuccessful application, as well as creating membership IDs for successful applications. Successful applications should be sent to a location for storage and refrence. 
+
+The e-commerce company also requires you to set up a database for their sales transactions. You are required to produce  entity-relationship diagrams as necessary to illustrate your design, along with the DDL statements that will be required to stand up the databse. 
+The following are known for each item listed for sale on the e-commerce website:
+- Item Name
+- Manufacturer Name
+- Cost
+- Weight (in kg)
+
+Each transaction made by a member contains the following information:
+- Membership ID
+- Items bought
+- Total items price
+- Total items weight
+
+This database will be used by several teams within the company to track the orders of members. You are required to implement a strategy for accessing this database based on the various teams' needs. These teams include:
+- Logistics: 
+    - Get the sales details (in particular the weight of the total items bought)
+    - Update the table for completed transactions
+- Analytics:
+    - Perform analysis on the sales and membership status
+    - Should not be able to perform updates on any tables
+- Sales:
+    - Update databse with new items
+    - Remove old items from database
+
+
+
+---
+
+### Design 2
+
 You are designing data infrastructure on the cloud for a company whose main business is in processing images.
 
 The company has a web application which allows users to upload images to the cloud using an API. There is also a separate web application which hosts a Kafka stream that uploads images to the same cloud environment. This Kafka stream has to be managed by the company's engineers. 
