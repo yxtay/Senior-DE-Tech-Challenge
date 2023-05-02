@@ -8,3 +8,10 @@ Number of doors = 4 <br>
 Lug Boot Size = Big <br>
 Safety = High <br>
 Class Value = Good <br>
+
+### Instructions
+
+Run with docker
+```
+docker run --rm -v $(pwd):/home --workdir /home python sh -c "pip install -r requirements.txt; python train.py"
+```
