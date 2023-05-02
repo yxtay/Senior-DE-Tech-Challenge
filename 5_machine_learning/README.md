@@ -11,7 +11,7 @@ Class Value = Good <br>
 
 ### Instructions
 
-Run with docker
+Run with docker compose
 ```
-docker run --rm -v $(pwd):/home --workdir /home python:3.11 sh -c "pip install -r requirements.txt; python train.py"
+docker compose up
 ```

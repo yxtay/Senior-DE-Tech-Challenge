@@ -13,7 +13,7 @@ Note: please submit screenshots of the dashboard
 
 Run with docker
 ```
-docker run --rm -v $(pwd):/home --workdir /home -p 8050:8050 python:3.11 sh -c "pip install -r requirements.txt; python dashboard.py"
+docker compose up
 ```
 
 Open the dashboard on your browser: http://localhost:8050
