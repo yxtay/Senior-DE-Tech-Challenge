@@ -13,5 +13,5 @@ Class Value = Good <br>
 
 Run with docker
 ```
-docker run --rm -v $(pwd):/home --workdir /home python sh -c "pip install -r requirements.txt; python train.py"
+docker run --rm -v $(pwd):/home --workdir /home python:3.11 sh -c "pip install -r requirements.txt; python train.py"
 ```
