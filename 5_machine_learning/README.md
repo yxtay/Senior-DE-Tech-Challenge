@@ -1,6 +1,5 @@
 # Senior Data Enginer Tech Challenge
 ---
----
 ## Section 5: Machine Learning
 Using the dataset from https://archive.ics.uci.edu/ml/datasets/Car+Evaluation, create a machine learning model to predict the buying price given the following parameters:
 
