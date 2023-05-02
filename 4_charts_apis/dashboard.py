@@ -1,15 +1,22 @@
+from pathlib import Path
+
 from dash import Dash, html, dcc, callback, Output, Input
 import pandas as pd
 import plotly.express as px
 import requests
 
 
-URL = "https://api.covid19api.com/country/singapore/status/confirmed"
+DATA_URL = "https://api.covid19api.com/country/singapore/status/confirmed"
+DATA_PARQUET = "covid.parquet"
 
 def get_data():
-    response = requests.get(URL)
+    if Path(DATA_PARQUET).exists():
+        return pd.read_parquet(DATA_PARQUET)
+    
+    response = requests.get(DATA_URL)
     df = pd.DataFrame(response.json())
     df["Date"] = pd.to_datetime(df["Date"])
+    df.to_parquet(DATA_PARQUET)
     return df
 
 df = get_data()
