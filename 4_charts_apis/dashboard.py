@@ -18,7 +18,7 @@ end_data = df["Date"].max()
 
 app = Dash(__name__)
 app.layout = html.Div([
-    html.H1(children='COVID cases in Singapore over time', style={'textAlign':'center'}),
+    html.H1(children='COVID19 cases in Singapore over time', style={'textAlign':'center'}),
     dcc.DatePickerRange(
         id='date-picker-range',
         display_format='DD-MM-YYYY',

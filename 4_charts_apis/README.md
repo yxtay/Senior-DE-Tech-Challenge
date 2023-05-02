@@ -11,7 +11,7 @@ Note: please submit screenshots of the dashboard
 
 ### Instructions
 
-Run with docker
+Run with docker compose
 ```
 docker compose up
 ```
