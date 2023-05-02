@@ -18,4 +18,4 @@ docker run --rm -v $(pwd):/home --workdir /home -p 8050:8050 python:3.11 sh -c "
 
 Open the dashboard on your browser: http://localhost:8050
 
-[dashboard screenshot](dashboard-screenshot.png)
+![dashboard screenshot](dashboard-screenshot.png)
