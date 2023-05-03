@@ -4,7 +4,6 @@ from airflow.decorators import dag, task
 
 @dag(start_date=datetime(2023, 1, 1), schedule_interval="@hourly", catchup=False)
 def memberships_pipeline():
-    
     @task()
     def process_memberships(ts=None):
         import hashlib
@@ -14,12 +13,9 @@ def memberships_pipeline():
 
         def load_data(data_csv_pattern: str, ts: str) -> pl.DataFrame:
             csv_paths = Path(".").glob(data_csv_pattern)
-            df = (
-                pl.concat(pl.scan_csv(csv) for csv in csv_paths)
-                .with_columns(
-                    pl.lit(ts[:10]).alias("ds"),
-                    pl.lit(ts).alias("ts"),
-                )
+            df = pl.concat(pl.scan_csv(csv) for csv in csv_paths).with_columns(
+                pl.lit(ts[:10]).alias("ds"),
+                pl.lit(ts).alias("ts"),
             )
             return df
 
@@ -32,27 +28,35 @@ def memberships_pipeline():
 
             df = (
                 df.with_columns(
-                    pl.col("name").str.replace_all(strip_pattern, "").alias("processed_name"),
-                ).with_columns(
-                    pl.col("processed_name").str.split(" ").arr.get(0).alias("first_name"),
-                    pl.col("processed_name").str.split(" ").arr.get(1).alias("last_name"),
-                ).select(pl.exclude("processed_name"))
+                    pl.col("name")
+                    .str.replace_all(strip_pattern, "")
+                    .alias("processed_name"),
+                )
+                .with_columns(
+                    pl.col("processed_name")
+                    .str.split(" ")
+                    .arr.get(0)
+                    .alias("first_name"),
+                    pl.col("processed_name")
+                    .str.split(" ")
+                    .arr.get(1)
+                    .alias("last_name"),
+                )
+                .select(pl.exclude("processed_name"))
             )
             return df
 
         def process_date(df: pl.DataFrame) -> pl.DataFrame:
             date_formats = ["%Y-%m-%d", "%d-%m-%Y", "%Y/%m/%d", "%m/%d/%Y"]
-            df = (
-                df.with_columns(
-                    pl.coalesce(
-                        [
-                            pl.col("date_of_birth").str.to_date(format, strict=False) 
-                            for format in date_formats
-                        ]
-                    )
-                ).with_columns(
-                    pl.col("date_of_birth").dt.strftime("%Y%m%d").alias("birthday")
+            df = df.with_columns(
+                pl.coalesce(
+                    [
+                        pl.col("date_of_birth").str.to_date(format, strict=False)
+                        for format in date_formats
+                    ]
                 )
+            ).with_columns(
+                pl.col("date_of_birth").dt.strftime("%Y%m%d").alias("birthday")
             )
             return df
 
@@ -62,32 +66,37 @@ def memberships_pipeline():
             reference_date = datetime(2022, 1, 1)
             eighteen_years_in_days = 18 * 365
 
-            df = (
-                df.with_columns(
-                    (pl.col("name").str.lengths() > 0).alias("has_valid_name"),
-                    pl.col("mobile_no").str.contains(valid_mobile_regex).alias("has_valid_mobile"),
-                    ((pl.lit(reference_date) - pl.col("date_of_birth")).dt.days() > eighteen_years_in_days).alias("above_18"),
-                    pl.col("email").str.contains(valid_email_regex).alias("has_valid_email"),
-                ).with_columns(
-                    (
-                        pl.col("has_valid_name") & 
-                        pl.col("has_valid_mobile") & 
-                        pl.col("above_18") & 
-                        pl.col("has_valid_email")
-                    ).alias("is_successful")
-                )
+            df = df.with_columns(
+                (pl.col("name").str.lengths() > 0).alias("has_valid_name"),
+                pl.col("mobile_no")
+                .str.contains(valid_mobile_regex)
+                .alias("has_valid_mobile"),
+                (
+                    (pl.lit(reference_date) - pl.col("date_of_birth")).dt.days()
+                    > eighteen_years_in_days
+                ).alias("above_18"),
+                pl.col("email")
+                .str.contains(valid_email_regex)
+                .alias("has_valid_email"),
+            ).with_columns(
+                (
+                    pl.col("has_valid_name")
+                    & pl.col("has_valid_mobile")
+                    & pl.col("above_18")
+                    & pl.col("has_valid_email")
+                ).alias("is_successful")
             )
             return df
 
         def process_membership_id(df: pl.DataFrame) -> pl.DataFrame:
-            df = (
-                df.with_columns(
-                    pl.concat_str(
-                        pl.col("last_name"),
-                        pl.col("birthday").apply(lambda x: hashlib.sha256(x.encode()).hexdigest()).str.slice(0, 5),
-                        separator="_"
-                    ).alias("membership_id")
-                )
+            df = df.with_columns(
+                pl.concat_str(
+                    pl.col("last_name"),
+                    pl.col("birthday")
+                    .apply(lambda x: hashlib.sha256(x.encode()).hexdigest())
+                    .str.slice(0, 5),
+                    separator="_",
+                ).alias("membership_id")
             )
             return df
 
@@ -99,8 +108,9 @@ def memberships_pipeline():
             return df
 
         def save_data(df: pl.DataFrame, save_dir: str) -> None:
-            df.collect().to_pandas().to_parquet(save_dir, partition_cols=["is_successful", "ds", "ts"])
-
+            df.collect().to_pandas().to_parquet(
+                save_dir, partition_cols=["is_successful", "ds", "ts"]
+            )
 
         if ts is None:
             ts = datetime(2023, 1, 1).isoformat()
@@ -113,4 +123,6 @@ def memberships_pipeline():
         save_data(processed_df, output_path)
 
     process_memberships_task = process_memberships()
+
+
 memberships_pipeline_dag = memberships_pipeline()
