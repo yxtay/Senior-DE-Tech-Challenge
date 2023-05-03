@@ -22,3 +22,24 @@ You are required to consolidate these datasets and output the successful applica
 You can use common scheduling solutions such as cron or airflow to implement the scheduling component. Please provide a markdown file as documentation.
 
 Note: Please submit the processed dataset and scripts used
+
+### Instructions
+
+Set up airflow
+```
+docker compose up airflow-init && docker compose up
+```
+
+Manually trigger DAG
+```
+docker compose exec airflow-worker airflow dags trigger memberships_pipeline
+```
+
+Processed data is saved in `output` folder. 
+Successful applications in `output/is_succssful=true`, failed applications in `output/is_succssful=false`.
+
+### Clean up
+
+```
+docker compose down --volumes --remove-orphans --rmi all
+```
