@@ -109,7 +109,9 @@ def memberships_pipeline():
 
         def save_data(df: pl.DataFrame, save_dir: str) -> None:
             df.collect().to_pandas().to_parquet(
-                save_dir, partition_cols=["is_successful", "ds", "ts"]
+                save_dir,
+                partition_cols=["is_successful", "ds", "ts"],
+                existing_data_behavior="delete_matching",
             )
 
         if ts is None:
