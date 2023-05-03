@@ -15,3 +15,9 @@ Run with docker compose
 ```
 docker compose up --build
 ```
+
+### Clean up
+
+```
+docker compose down --volumes --remove-orphans --rmi all
+```

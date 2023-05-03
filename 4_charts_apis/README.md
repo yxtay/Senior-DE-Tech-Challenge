@@ -19,3 +19,9 @@ docker compose up --build
 Open the dashboard on your browser: http://localhost:8050
 
 ![dashboard screenshot](dashboard-screenshot.png)
+
+### Clean up
+
+```
+docker compose down --volumes --remove-orphans --rmi all
+```
