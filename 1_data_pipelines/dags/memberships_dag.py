@@ -13,10 +13,21 @@ def memberships_pipeline():
 
         def load_data(data_csv_pattern: str, ts: str) -> pl.DataFrame:
             csv_paths = Path(".").glob(data_csv_pattern)
+            assert len(csv_paths) > 0, f"no file found: {data_csv_pattern}"
+
             df = pl.concat(pl.scan_csv(csv) for csv in csv_paths).with_columns(
                 pl.lit(ts[:10]).alias("ds"),
                 pl.lit(ts).alias("ts"),
             )
+
+            n_rows, _ = df.collect().shape
+            assert n_rows > 0, "no data loaded"
+
+            expected_cols = set(["name", "email", "date_of_birth", "mobile_no"])
+            check_columns = len(expected_cols & set(df.columns)) == len(expected_cols)
+            msg = f"missing columns, expected: {expected_cols}, actual: {df.columns}"
+            assert check_columns, msg
+
             return df
 
         def process_name(df: pl.DataFrame) -> pl.DataFrame:

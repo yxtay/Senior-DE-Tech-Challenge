@@ -40,9 +40,13 @@ The data pipeline is defined as a DAG in airflow. You may find it in the [dags](
 Processed data is saved in `output` folder. 
 Successful applications in `output/is_succssful=true`, failed applications in `output/is_succssful=false`.
 
+Usually, the data should have a suitable datetime partition or in the path name to allow idempotent behaviour.
+In this task, my pipeline is always reading from the same data source to simulate the data being available.
+I have added the ds and ts columns into the data as part of the pipeline to simulate the data partitions.
+
 In general, I would have preferred to run the task in an environment isolated from airflow, 
-such as using DockerOperator or KubernetesOperator.
-However, given the time constraint, I have opted to provide a minimum workable solution heer.
+such as using virtual environment, DockerOperator or KubernetesOperator.
+However, given the time constraint, I have opted to provide a minimum workable solution here sharing environment with airflow.
 
 ### Clean up
 
