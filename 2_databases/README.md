@@ -29,6 +29,12 @@ Run with docker compose
 ```
 docker compose up -d
 ```
+This sets up the tables in the postgres database ([query](sql/create_tables.sql)). 
+You may browse the tables using pgAdmin on http://localhost:5050.
+
+The task included having to insert the successful members from the previous task.
+Given that checks were already done, this is a simple data loading and inserting into the database.
+I have already shown that I am able to do that in the previous task, hence I have chosen to skip this step.
 
 Entity-relationship diagram
 
