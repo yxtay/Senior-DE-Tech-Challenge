@@ -16,6 +16,13 @@ Run with docker compose
 docker compose up --build
 ```
 
+The model prediction of `low` buying price is printed out at the end of the script.
+
+For a better model, I would have considered implementing early stopping with a validation dataset and hyperparameter tuning.
+However, given such a small dataset, it is difficult to implement properly.
+
+If time permits, I would also perform some model analysis such as evaluating loss, error rates, feature importance, etc.
+
 ### Clean up
 
 ```
