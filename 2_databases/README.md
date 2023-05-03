@@ -22,3 +22,25 @@ Analysts from the e-commerce company will need to query some information from th
 You are tasked to write a SQL statement for each of the following task:
 1. Which are the top 10 members by spending
 2. Which are the top 3 items that are frequently brought by members
+
+### Instructions
+
+Run with docker compose
+```
+docker compose up --build -d
+```
+
+Entity-relationship diagram
+
+![entity-relationship diagram](erd.png)
+
+Queries:
+
+1. Top 10 members by spending: [query](sql/top_10_members_by_spending.sql)
+2. Top 3 items by quantity sold: [query](sql/top_3_items_frequently_bought.sql)
+
+### Clean up
+
+```
+docker compose down --volumes --remove-orphans --rmi all
+```
