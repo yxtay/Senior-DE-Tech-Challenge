@@ -1,8 +1,6 @@
 services:
   app:
-    image: python:3.11
+    build: .
     volumes:
       - .:/home
-    working_dir: /home
-    command: sh -c "pip install --user -r requirements.txt; python train.py"
     

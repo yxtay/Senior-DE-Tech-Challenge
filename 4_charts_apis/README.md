@@ -13,7 +13,7 @@ Note: please submit screenshots of the dashboard
 
 Run with docker compose
 ```
-docker compose up
+docker compose up --build
 ```
 
 Open the dashboard on your browser: http://localhost:8050

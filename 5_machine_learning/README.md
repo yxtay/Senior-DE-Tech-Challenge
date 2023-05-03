@@ -13,5 +13,5 @@ Class Value = Good <br>
 
 Run with docker compose
 ```
-docker compose up
+docker compose up --build
 ```
