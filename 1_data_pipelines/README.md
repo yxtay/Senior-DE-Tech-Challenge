@@ -27,7 +27,7 @@ Note: Please submit the processed dataset and scripts used
 
 Set up airflow
 ```
-docker compose up airflow-init && docker compose up
+docker compose up --build -d
 ```
 
 Manually trigger DAG

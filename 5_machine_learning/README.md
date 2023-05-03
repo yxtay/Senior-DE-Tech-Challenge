@@ -13,7 +13,7 @@ Class Value = Good <br>
 
 Run with docker compose
 ```
-docker compose up --build
+docker compose up --build -d
 ```
 
 ### Clean up
