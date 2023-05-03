@@ -27,7 +27,7 @@ You are tasked to write a SQL statement for each of the following task:
 
 Run with docker compose
 ```
-docker compose up --build -d
+docker compose up -d
 ```
 
 Entity-relationship diagram

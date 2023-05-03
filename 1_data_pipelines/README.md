@@ -30,9 +30,9 @@ Set up airflow
 docker compose up --build -d
 ```
 
-Manually trigger DAG
+Execute a DAG
 ```
-docker compose exec airflow-worker airflow dags trigger memberships_pipeline
+docker compose exec airflow-worker airflow dags test memberships_pipeline 2023-01-01
 ```
 
 Processed data is saved in `output` folder. 
