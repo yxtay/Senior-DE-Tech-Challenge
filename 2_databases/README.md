@@ -38,7 +38,7 @@ I have already shown that I am able to do that in the previous task, hence I hav
 
 Entity-relationship diagram
 
-![entity-relationship diagram](erd.png)
+![entity-relationship diagram](./erd.png)
 
 Queries:
 
