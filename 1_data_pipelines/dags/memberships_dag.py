@@ -12,7 +12,7 @@ def memberships_pipeline():
         import polars as pl
 
         def load_data(data_csv_pattern: str, ts: str) -> pl.DataFrame:
-            csv_paths = Path(".").glob(data_csv_pattern)
+            csv_paths = list(Path(".").glob(data_csv_pattern))
             assert len(csv_paths) > 0, f"no file found: {data_csv_pattern}"
 
             df = pl.concat(pl.scan_csv(csv) for csv in csv_paths).with_columns(

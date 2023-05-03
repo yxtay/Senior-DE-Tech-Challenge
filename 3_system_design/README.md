@@ -3,6 +3,7 @@
 ## Section3: System Design
 
 ### Design 1
+
 We will be referencing the database from Section2 in this design.. This database will be used by several teams within the company to track the orders of members. You are required to implement a strategy for accessing this database based on the various teams' needs. These teams include:
 - Logistics: 
     - Get the sales details (in particular the weight of the total items bought)
@@ -13,6 +14,8 @@ We will be referencing the database from Section2 in this design.. This database
 - Sales:
     - Update databse with new items
     - Remove old items from database
+
+#### Solution
 
 
 ### Design 2
@@ -44,3 +47,5 @@ You will need to ensure that the architecture takes into account the best practi
 - Least Privilege
 
 Do indicate any assumptions you have made regarding the architecture. You are required to provide a detailed explanation on the diagram.
+
+#### Solution
