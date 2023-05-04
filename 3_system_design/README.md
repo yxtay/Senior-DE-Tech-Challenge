@@ -32,10 +32,14 @@ The ideal solution for each use case really depends on the amount of effort avai
     - Set up datawarehouse using hive, spark or use cloud providers
     - Copy the data in the databases into the datawarehoue for analytical purposes
 - Sales
-  - In general, it is not a good idea to delete entries in a database
-  - For this use case, I think a better solution is to have an is_active column for products
-  - New products can be inserted into the products table
-  - Old products should have their is_active field set to False
+  - Low effort:
+    - In general, it is not a good idea to delete entries in a database
+    - For this use case, I think a better solution is to have an is_active column for products
+    - New products can be inserted into the products table
+    - Old products should have their is_active field set to False
+  - High effort:
+    - Similar to solution for logistics team, use a dashboarding tool to allow sales team to add and remove products
+    - The dashboarding tool will update the changes to the products table
 
 ### Design 2
 
@@ -68,3 +72,57 @@ You will need to ensure that the architecture takes into account the best practi
 Do indicate any assumptions you have made regarding the architecture. You are required to provide a detailed explanation on the diagram.
 
 #### Solution
+
+Diagram
+![system arcitecture diagram](./system-architecture.png)
+
+Explanation is best done face-to-face, I will try my best to describe over text here.
+
+1. Front end clients, which users interact with to upload images.
+2. Clients will reach the backend servers through a load balancer. 
+   This allows the backend servers to autoscale horizontally in event of high load.
+3. Backend servers to handle requests from clients. 
+   It will receive the images uploaded and pass to the image stream message queue.
+4. The image stream message queue that uploaded images will added to to be handled later.
+   This should be similar to kafka stream hosted by the other web application.
+5. The iamge stream handling service will save the uploaded images and update the database through the storage write servers.
+   Once the images are saved, it will pass the image metadata to the image processing message queue.
+6. The storage write servers will save the images into an object store and also update the image metadata database.
+7. The image metadata database will store information such as image id, user id, raw image path, uploaded time, etc.
+8. The raw image store will store the raw uploaded images.
+9. The image processing message queue that saved images will be processed later.
+10. The image processing servers will obtain images metadata from the message queue.
+    It will then download the images from the raw image store to apply the image processing code on the images.
+    The processed images are then written to the processed image store through the storage write servers.
+    The storage write servers will update the image metadata database accordingly.
+11. The storage read service will read the images from the raw and processed image stores.
+12. The processed image store will store the processed images.
+13. I imagine the users will want to view the raw and processed images on the client.
+    To speed up response time and minimise load on the storage, these images will be served from a CDN.
+
+For managing data purging, this can be done in a few ways.
+1. Configure suitable time-to-live in the image stores.
+2. Include a delete_at field in the image metadata.
+   Have a separate service to delete the image once te the time is reached.
+
+Based on this design, each service can be scaled horizontally when ever request load is high.
+This is applicable to services (3, 5, 6, 10 and 11). This ensures high availability, elasticity and low latency.
+
+For manageability, each service has only a single responsibility, which allows for them to be developed independently
+and be replaced completely if required. 
+This also makes efficient resource consumption as we can allocate specific resource to each service as required.
+
+Security can refer to different aspects. For access security, each service should interact with the right authentication.
+Critically, the databases and image stores are not exposed directly to any service, but through storage write and read service.
+Hence we can limit access by applying access control on the storage services. This also handles least privileged access.
+Another aspect for data security, the images enters the backend through message queues.
+Distributed message queues are able to store messages on disk, allowing for message replays in event of downstream service failures.
+This ensures data is protected from loss.
+
+To get high availability, we should use multi region cloud services to ensure services stay online 
+in the event of data center failures in our cloud providers.
+
+For fault tolerance and disaster recovery, we will need to ensure that we create multi region backups of our database and image store.
+This will allow us to restore the data in the unfortunate event of data loss.
+Fault tolerance is also covered by the use of message queues to pass messages from one service to another.
+This ensures the requests remain in the queue and can be handled later in the event of downstream service failures.

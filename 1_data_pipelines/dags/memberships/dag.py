@@ -4,7 +4,7 @@ from airflow.decorators import dag, task
 
 @dag(start_date=datetime(2023, 1, 1), schedule_interval="@hourly", catchup=False)
 def memberships_approval():
-    requirements = ["polars~=0.17.11", "pyarrow~=9.0.0"]
+    requirements = ["polars[pandas,pyarrow]~=0.17.11"]
 
     @task.virtualenv(requirements=requirements)
     def process_memberships(ts=None):
