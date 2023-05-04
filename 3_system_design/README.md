@@ -73,8 +73,9 @@ Do indicate any assumptions you have made regarding the architecture. You are re
 
 #### Solution
 
-Diagram
-![system arcitecture diagram](./system-architecture.png)
+System architecture
+
+![system arcitecture](./system-architecture.png)
 
 Explanation is best done face-to-face, I will try my best to describe over text here.
 
