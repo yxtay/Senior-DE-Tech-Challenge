@@ -35,7 +35,7 @@ Execute a DAG
 docker compose exec airflow-worker airflow dags test memberships_approval 2023-01-01
 ```
 
-The data pipeline is defined as a DAG in airflow. You may find it in the [dags](dags/memberships_dag.py) folder.
+The data pipeline is defined as a DAG in airflow. You may find it in the [dags](./dags/) folder.
 
 Processed data is saved in `output` folder. 
 Successful applications in `output/is_succssful=true`, failed applications in `output/is_succssful=false`.
