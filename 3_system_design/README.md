@@ -17,6 +17,25 @@ We will be referencing the database from Section2 in this design.. This database
 
 #### Solution
 
+The ideal solution for each use case really depends on the amount of effort available.
+- Logistics
+  - Low effort:
+    - Use views or materialised views that shows the unfulfilled order details for current day and daily aggregates
+    - Allow logistics team to modify the order status in the order tables
+  - High effort:
+    - Use a dashboarding tool to show the unfulfulled orders, order details and daily aggregates
+    - On the tool, the logistics team is able to check off completed orders which then updates the orders table
+- Analytics
+  - Low effort:
+    - Set up read replicas of the database for the analytics to run analysis
+  - High effort:
+    - Set up datawarehouse using hive, spark or use cloud providers
+    - Copy the data in the databases into the datawarehoue for analytical purposes
+- Sales
+  - In general, it is not a good idea to delete entries in a database
+  - For this use case, I think a better solution is to have an is_active column for products
+  - New products can be inserted into the products table
+  - Old products should have their is_active field set to False
 
 ### Design 2
 
