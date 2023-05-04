@@ -70,13 +70,13 @@ def process_validity(df: pl.DataFrame) -> pl.DataFrame:
         (
             (pl.lit(reference_date) - pl.col("date_of_birth")).dt.days()
             > eighteen_years_in_days
-        ).alias("above_18"),
+        ).alias("is_above_18"),
         pl.col("email").str.contains(valid_email_regex).alias("has_valid_email"),
     ).with_columns(
         (
             pl.col("has_valid_name")
             & pl.col("has_valid_mobile")
-            & pl.col("above_18")
+            & pl.col("is_above_18")
             & pl.col("has_valid_email")
         ).alias("is_successful")
     )

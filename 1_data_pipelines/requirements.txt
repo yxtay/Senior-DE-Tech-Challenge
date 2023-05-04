@@ -1,2 +1,0 @@
-apache_airflow~=2.6.0
-polars~=0.17.11
